@@ -1,4 +1,11 @@
 # set09103
 Advanced Web technologies
 
-Hello it's a readme file
+
+# How to run the app
+
+Launch the file "home.py"
+
+```
+python home.py
+```
