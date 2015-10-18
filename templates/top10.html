@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+  <form action="{{ url_for('add_character') }}" method="post">
+    <p><label for="name">Name</label>
+    <input type="text" name="name" id="name" /></p>
+    <p><label for="description">Description</label>
+    <textarea name="description" id="description" cols="30" rows="4">
+    </textarea></p>
+    <p><input type="submit" value="Add" /></p>
+  </form>
+  {% endif %}
+  <ul class="list">
+    {% for character in top %}
+      <li><h2>{{ character.name }}</h2>
+      <p>{{ character.description }}</p>
+      </li>
+    {% else %}
+      <li>No character so far</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
