@@ -4,7 +4,13 @@ Advanced Web technologies
 
 # How to run the app
 
-Launch the file "home.py"
+Create the database (launch the file create_db.py)
+
+```
+python create_db.py
+```
+
+Launch the file "index.py"
 
 ```
 python home.py
