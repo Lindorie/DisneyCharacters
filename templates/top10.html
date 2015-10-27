@@ -1,12 +1,8 @@
 {% extends "layout.html" %}
 
 {% block body %}
-
-  {% if session.logged_in %}
-    <p>
-      <a class="btn btn-default" href="{{ url_for('add_character') }}">Add a character</a>
-    </p>
-  {% endif %}
+  
+  <h2>Top 10</h2>
 
   {% for character in top %}
       <div class="row">
@@ -21,7 +17,11 @@
       </div>
       </li>
     {% else %}
-      <p>No character so far</p>
+      <p>No character so far.</p> 
+      {% if session.logged_in %}
+      <p><a class="btn btn-default" href="{{ url_for('add_character') }}">
+      <strong>Add a character</a></strong></p>
+      {% endif %}
     {% endfor %}
 
 {% endblock %}

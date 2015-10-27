@@ -18,6 +18,14 @@ body {
   margin: 0;
 }
 
+a:link, a:hover, a:active, a:visited {
+  color: #fbf8ca;
+}
+
+a:hover, a:active {
+  text-decoration: underline;
+}
+
 h1 {
   font-size: 56px;
   font-family: Handlee, Georgia, serif;
@@ -26,8 +34,7 @@ h1 {
 }
 
 #page {
-  width: 960px;
-  margin: 0 auto;
+  padding-top: 20px;
 }
 
 #header {
@@ -36,6 +43,11 @@ h1 {
   width: 100%;
   padding-top: 70px;
   min-height: 300px;
+}
+
+#header h1 a {
+  text-decoration: none;
+  color: #fbf8ca;
 }
 
 #header h2 {
@@ -72,6 +84,14 @@ h1 {
   line-height: 2;
 }
 
-#page {
-  padding-top: 20px;
+#page a.btn-default {
+  color: #360827;
+  background: #fbf8ca;
+}
+
+#page a.btn-default:hover,
+#page a.btn-default:active,
+#page a.btn-default:focus {
+  color: #fbf8ca;
+  background: #360827;
 }
