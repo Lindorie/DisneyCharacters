@@ -1,0 +1,77 @@
+/* 
+### THEME COLOURS ###
+accent: #fbf8ca
+base: #5e1043
+background: #360827
+*/
+
+
+@import url(https://fonts.googleapis.com/css?family=Handlee);
+@import url(https://fonts.googleapis.com/css?family=Jaldi);
+
+
+body {
+  background: #360827;
+  color: #fbf8ca;
+  font-family: Jaldi, Arial, sans-serif;
+  padding: 0 0 0 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 56px;
+  font-family: Handlee, Georgia, serif;
+  text-align: center;
+  margin: 0 0 30px 0;
+}
+
+#page {
+  width: 960px;
+  margin: 0 auto;
+}
+
+#header {
+  background: #5e1043;
+  color: #fbf8ca;
+  width: 100%;
+  padding-top: 70px;
+  min-height: 300px;
+}
+
+#header h2 {
+  color: #360827;
+  text-align: center;
+  margin: 0 auto 10px auto;
+}
+
+#header h2 a {
+  color: #fbf8ca;
+  text-decoration: none;
+}
+
+#header h2 a:hover {
+  text-decoration: underline;
+}
+
+#header h2.button a:hover {
+  background: #360827;
+  color: #fbf8ca;
+  box-shadow: 0 0 3px #fbf8ca;
+  text-decoration: none;
+}
+
+#header h2.button a {
+  color: #360827;
+  display: inline-block;
+  background: #fbf8ca;
+  border-radius: 20px;
+  padding: 5px 20px;
+}
+
+.navbar form input[type=text] {
+  line-height: 2;
+}
+
+#page {
+  padding-top: 20px;
+}

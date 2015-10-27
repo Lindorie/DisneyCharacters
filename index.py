@@ -66,8 +66,8 @@ def teardown_request(exception):
 def top10():
   this_route = url_for('.top10')
   app.logger.info("Logging a test message from "+this_route)
-  cur = g.db.execute('SELECT name,description FROM character DESC')
-  top = [dict(name=row[0],description=row['1']) for row in cur.fetchall()]
+  cur = g.db.execute('SELECT id,name,description,films FROM character DESC')
+  top = [dict(id=row[0],name=row[1],description=row[2],films=row[3],picture='characters/'+str(row[0])+'.jpg') for row in cur.fetchall()]
   return render_template('top10.html', top=top)
 
 @app.route('/config')
@@ -81,16 +81,22 @@ def config():
   str.append('database: '+app.config['database'])
   return '\t'.join(str)
 
-@app.route('/add', methods=['POST'])
+@app.route('/add', methods=['GET', 'POST'])
 def add_character():
+  error = None
   if not session.get('logged_in'):
     abort(401)
-  #g.db.execute('INSERT INTO character (name,description,pictures,films) VALUES \
-  #(?,?,?,?)', [request.form['name'], request.form['description'], \
-  #request.form['pictures'],request.form['films']])
-  #g.db.commit()
-  flash('New character was successfully posted')
-  return redirect(url_for('top10'))
+  if request.method == 'POST':
+    cur = g.db.cursor()
+    cur.execute('INSERT INTO character (name,description,films) VALUES \
+    (?,?,?)', [request.form['name'], request.form['description'], request.form['films']])
+    g.db.commit()
+    f = request.files['picture']
+    lastid = str(cur.lastrowid)
+    f.save('static/characters/'+lastid+'.jpg')
+    flash('New character was successfully posted')
+    return redirect(url_for('top10'))
+  return render_template('add.html', error=error)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -111,6 +117,14 @@ def logout():
   session.pop('logged_in', None)
   flash('You were logged out')
   return redirect(url_for('top10'))
+
+@app.route('/match')
+def match():
+  return render_template('match.html')
+
+@app.route('/browse')
+def browse():
+  return render_template('browse.html')
 
 if __name__ == '__main__':
   init(app)
