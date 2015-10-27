@@ -3,10 +3,14 @@
 {% block body %}
 <h2>Add a character</h2>
 
+{% if error %}
+<p class="alert alert-danger">{{ error }}</p>
+{% endif %}
+
 <form action="{{ url_for('add_character') }}" method="post" enctype="multipart/form-data">
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" name="name" id="name" class="form-control" placeholder="Name" />
+    <input required type="text" name="name" id="name" class="form-control" placeholder="Name" />
   </div>
   <div class="form-group">
     <label for="description">Description</label>
@@ -14,12 +18,12 @@
   </div>
   <div class="form-group">
     <label for="picture">Picture</label>
-    <input type="file" id="picture" name="picture" />
+    <input required type="file" id="picture" name="picture" />
     <p class="help-block">JPG only</p>
   </div>
   <div class="form-group">
     <label for="films">Films</label>
-    <input type="text" name="films" id="films" class="form-control" placeholder="Films" />
+    <input required type="text" name="films" id="films" class="form-control" placeholder="Films" />
   </div>
   <input type="submit" value="Add" class="btn btn-default" />
 </form>
