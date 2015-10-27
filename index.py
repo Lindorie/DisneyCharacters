@@ -87,15 +87,20 @@ def add_character():
   if not session.get('logged_in'):
     abort(401)
   if request.method == 'POST':
-    cur = g.db.cursor()
-    cur.execute('INSERT INTO character (name,description,films) VALUES \
-    (?,?,?)', [request.form['name'], request.form['description'], request.form['films']])
-    g.db.commit()
-    f = request.files['picture']
-    lastid = str(cur.lastrowid)
-    f.save('static/characters/'+lastid+'.jpg')
-    flash('New character was successfully posted')
-    return redirect(url_for('top10'))
+    # Check the required fields (name, picture, films)
+    if request.form['name'] == "" or request.form['picture'] == "" or \
+    request.form['films'] == "":
+      error = "Please fill the required fields"
+    else:
+      cur = g.db.cursor()
+      cur.execute('INSERT INTO character (name,description,films) VALUES \
+      (?,?,?)', [request.form['name'], request.form['description'], request.form['films']])
+      g.db.commit()
+      f = request.files['picture']
+      lastid = str(cur.lastrowid)
+      f.save('static/characters/'+lastid+'.jpg')
+      flash('New character was successfully posted')
+      return redirect(url_for('top10'))
   return render_template('add.html', error=error)
 
 @app.route('/login', methods=['GET', 'POST'])
