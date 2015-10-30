@@ -5,23 +5,34 @@
   <h2>Top 10</h2>
 
   {% for character in top %}
-      <div class="row">
-        <div class="col-md-4">
-          <img class="img-rounded img-responsive center-block" src="{{ url_for('static', filename=character.picture) }}" alt="{{ character.name }}" />
-        </div>
-        <div class="col-md-8">
-          <h2>{{ character.name }}</h2>
-          <p>Films: {{ character.films }}</p>
-          <p>{{ character.description }}</p>
-        </div>
-      </div>
-      </li>
+
+    {% if loop.index == 1 %}
+      <div class="col-md-12">
+    {% elif loop.index == 2 or loop.index == 3 %}
+      <div class="col-md-6">
     {% else %}
-      <p>No character so far.</p> 
+      <div class="col-md-3">
+    {% endif %}
+
+      <img class="img-rounded img-responsive center-block" src="{{ url_for('static', filename=character.picture) }}" alt="{{ character.name }}" />
+      <h2 class="text-center">{{ loop.index }}. {{ character.name }}<br />
+      <small>{{ character.films }}</small></h2>
+
       {% if session.logged_in %}
-      <p><a class="btn btn-default" href="{{ url_for('add_character') }}">
+        <div class="well well-sm">
+          <a href="{{ url_for('delete', id=character.id) }}">Delete</a>
+        </div>
+      {% endif %}
+    </div>
+
+  {% else %}
+
+        <p>No character so far.</p> 
+
+      {% if session.logged_in %}
+        <p><a class="btn btn-default" href="{{ url_for('add_character') }}">
       <strong>Add a character</a></strong></p>
       {% endif %}
-    {% endfor %}
 
+  {% endfor %}
 {% endblock %}

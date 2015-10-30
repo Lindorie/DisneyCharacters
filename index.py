@@ -2,6 +2,7 @@
 import ConfigParser
 import sqlite3
 import logging
+import os
 
 from logging.handlers import RotatingFileHandler
 from flask import Flask, request, session, g, redirect, url_for, \
@@ -97,6 +98,19 @@ def add_character():
     return redirect(url_for('top10'))
   return render_template('add.html', error=error)
 
+@app.route('/delete/<int:id>')
+def delete(id):
+  error = None
+  if not session.get('logged_in'):
+    abort(401)
+  cur = g.db.cursor()
+  cur.execute('DELETE FROM character WHERE id = ?', [id])
+  g.db.commit()
+  os.remove('static/character/'+str(id)+'.jpg')
+  flash('The character was successfully removed.')
+  return redirect(url_for('top10'))
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
   error = None
@@ -122,8 +136,15 @@ def match():
   return render_template('match.html')
 
 @app.route('/browse')
-def browse():
-  return render_template('browse.html')
+@app.route('/browse/<sort>')
+def browse(sort=None):
+  if sort == None:
+    sort = "name"
+  query = 'SELECT id,name,films FROM character ORDER BY '+sort
+  cur = g.db.execute(query)
+  collection = [dict(id=row[0],name=row[1],films=row[2],picture='characters/'+str(row[0])+'.jpg')
+  for row in cur.fetchall()]
+  return render_template('browse.html', collection=collection)
 
 if __name__ == '__main__':
   init(app)

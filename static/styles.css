@@ -95,3 +95,15 @@ h1 {
   color: #fbf8ca;
   background: #360827;
 }
+
+.well a {
+  color: #360827;
+}
+
+table img {
+  max-width: 50px;
+}
+
+.table>tbody>tr>td {
+  vertical-align: middle;
+}
