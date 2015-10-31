@@ -96,6 +96,11 @@ def add_character():
   if not session.get('logged_in'):
     abort(401)
   if request.method == 'POST':
+    query = 'SELECT * FROM character WHERE name = ?'
+    testname = query_db(query, [request.form['name']])
+    if testname:
+      error = "Sorry, there is already a character with this name"
+      return render_template('add.html', error=error)
     cur = g.db.cursor()
     cur.execute('INSERT INTO character (name,description,films) VALUES \
     (?,?,?)', [request.form['name'], request.form['description'], request.form['films']])
@@ -104,7 +109,7 @@ def add_character():
     lastid = str(cur.lastrowid)
     f.save('static/characters/'+lastid+'.jpg')
     flash('New character was successfully posted')
-    return redirect(url_for('top10'))
+    return redirect(url_for('character', id=lastid))
   return render_template('add.html', error=error)
 
 @app.route('/delete/<int:id>')
@@ -166,15 +171,15 @@ def match():
   return render_template('match.html')
 
 @app.route('/browse')
-@app.route('/browse/<sort>')
-def browse(sort=None):
+@app.route('/browse/<sort>/<order>')
+def browse(sort=None,order='ASC'):
   if sort == None:
     sort = "name"
-  query = 'SELECT id,name,films FROM character ORDER BY '+sort
+  query = 'SELECT id,name,films FROM character ORDER BY '+sort+' '+order
   cur = g.db.execute(query)
   collection = [dict(id=row[0],name=row[1],films=row[2],picture='characters/'+str(row[0])+'.jpg')
   for row in cur.fetchall()]
-  return render_template('browse.html', collection=collection)
+  return render_template('browse.html', collection=collection, order=order)
 
 @app.route('/character')
 @app.route('/character/<int:id>')

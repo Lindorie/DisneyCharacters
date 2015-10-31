@@ -7,10 +7,26 @@
     <tr>
       <th>#</th>
       <th>Picture</th>
-      <th><a href="{{ url_for('browse', sort='name') }}"><span class="glyphicon glyphicon-sort"
-      aria-hidden="true"></span></a> Name</th>
-      <th><a href="{{ url_for('browse', sort='films') }}"><span class="glyphicon glyphicon-sort"
-      aria-hidden="true"></span></a> Films</th>
+      <th>
+        {% if order == 'ASC' %}
+        <a href="{{ url_for('browse', sort='name', order='DESC') }}">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
+        {% else %}
+        <a href="{{ url_for('browse', sort='name', order='ASC') }}">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
+        {% endif %}
+      
+        Name</th>
+      <th> 
+        {% if order == 'ASC' %}
+        <a href="{{ url_for('browse', sort='films', order='DESC') }}">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
+        {% else %}
+        <a href="{{ url_for('browse', sort='films', order='ASC') }}">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
+        {% endif %}
+      
+      Films</th>
     </tr>
   {% for character in collection %}
     <tr>

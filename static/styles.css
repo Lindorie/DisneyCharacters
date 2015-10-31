@@ -87,6 +87,12 @@ h1 {
 #page .btn-default {
   color: #360827;
   background: #fbf8ca;
+  font-size: 18px;
+}
+
+form .btn-default {
+  padding: 5px 30px;
+  font-weight: bold;
 }
 
 #page .btn-default:hover,
