@@ -72,17 +72,24 @@ def get_character(id):
     character['picture'] = 'characters/'+str(character['id'])+'.jpg'
   return character
 
-def get_all_characters():
-  query = 'SELECT * FROM character ORDER BY name ASC'
+def get_all_characters(sort, order):
+  query = 'SELECT * FROM character ORDER BY '+sort+' '+order
   allcharacters = query_db(query)
+  if allcharacters:
+    for c in allcharacters:
+      c['picture'] = 'characters/'+str(c['id'])+'.jpg'
   return allcharacters
 
+def get_the_last_id():
+  query = 'SELECT id FROM character ORDER BY id DESC'
+  lastid = query_db(query, [], one=True)
+  return lastid['id']
+
 def get_random_player():
-  all = get_all_characters()
-  count = len(all)
+  max = int(get_the_last_id())
   player = None
   while (player == None):
-    rand = random.randrange(1, count+1)
+    rand = random.randrange(1, max+1)
     player = get_character(rand)
   return player
 
@@ -233,13 +240,16 @@ def match():
 
 @app.route('/browse')
 @app.route('/browse/<sort>/<order>')
-def browse(sort=None,order='ASC'):
+def browse(sort=None,order=None):
   if sort == None:
     sort = "name"
-  query = 'SELECT id,name,films FROM character ORDER BY '+sort+' '+order
-  cur = g.db.execute(query)
-  collection = [dict(id=row[0],name=row[1],films=row[2],picture='characters/'+str(row[0])+'.jpg')
-  for row in cur.fetchall()]
+  if order == None:
+    order = "ASC"
+  collection = get_all_characters(sort, order)
+  #query = 'SELECT id,name,films FROM character ORDER BY '+sort+' '+order
+  #cur = g.db.execute(query)
+  #collection = [dict(id=row[0],name=row[1],films=row[2],picture='characters/'+str(row[0])+'.jpg')
+  #for row in cur.fetchall()]
   return render_template('browse.html', collection=collection, order=order)
 
 @app.route('/character')

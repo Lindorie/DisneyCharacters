@@ -3,6 +3,7 @@
 {% block body %}
   <h2>Browse the characters</h2>
 
+
   <table class="table table-condensed">
     <tr>
       <th>#</th>
@@ -27,6 +28,35 @@
         {% endif %}
       
       Films</th>
+      <th>        
+        {% if order == 'ASC' %}
+        <a href="{{ url_for('browse', sort='score', order='DESC') }}">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
+        {% else %}
+        <a href="{{ url_for('browse', sort='score', order='ASC') }}">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
+        {% endif %}
+
+        Score
+        </th>
+        <th>
+           {% if order == 'ASC' %}
+        <a href="{{ url_for('browse', sort='matches', order='DESC') }}">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
+        {% else %}
+        <a href="{{ url_for('browse', sort='matches', order='ASC') }}">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
+        {% endif %}
+        Matches</th>
+        <th>
+                {% if order == 'ASC' %}
+        <a href="{{ url_for('browse', sort='wins', order='DESC') }}">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
+        {% else %}
+        <a href="{{ url_for('browse', sort='wins', order='ASC') }}">
+        <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
+        {% endif %}
+        Wins</th>
     </tr>
   {% for character in collection %}
     <tr>
@@ -37,6 +67,9 @@
       <td><a href="{{ url_for('character', id=character.id) }}">{{ character.name }}</a></td>
       <td><a href="{{ url_for('film', name=character.films) }}">{{
       character.films }}</a></td>
+      <td>{{ character.score }}</td>
+      <td>{{ character.matches }}</td>
+      <td>{{ character.wins }}</td>
     </tr>
   {% endfor %}
   </table>

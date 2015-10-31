@@ -2,7 +2,7 @@
 
 {% block body %}
   
-  <h2>Top 10</h2>
+  <h2 class="text-center">Top 10</h2>
   {% if top %}
   
   {% for character in top %}
@@ -15,15 +15,19 @@
       <div class="col-md-3 character">
     {% endif %}
 
-        <a href="{{ url_for('character', id=character.id) }}">
-          <img class="img-rounded img-responsive center-block" src="{{ url_for('static',
+        <div class="picture">
+          <a href="{{ url_for('character', id=character.id) }}">
+            <img class="img-rounded" src="{{ url_for('static',
       filename=character.picture) }}" alt="{{ character.name }}" />
-        </a>
-        <h2 class="text-center">{{ loop.index }}. <a href="{{
+          </a>
+          <p class="points">{{ character.score }} points</p>
+        </div>
+        <div class="center-block bottom">
+          <h3 class="text-center">{{ loop.index }}. <a href="{{
         url_for('character', id=character.id) }}">{{ character.name }}</a><br />
-      <small>{{
-        character.score }} points - <a href="{{ url_for('film', name=character.films) }}">{{
-      character.films }}</a></small></h2>
+      <small><a href="{{ url_for('film', name=character.films) }}">{{
+      character.films }}</a></small></h3>
+        </div>
 
       </div>
   {% endfor %}

@@ -154,11 +154,28 @@ div.row + .clearfix {
   background: none;
 }
 
-.character img {
-  box-shadow: 2px 2px 2px #15020e;
+.character .picture {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-.character a + h2 {
+.character .points {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.character .picture a {
+  display: block;
+}
+
+.character img {
+  box-shadow: 2px 2px 2px #15020e;
+  width: 100%;
+}
+
+.character .bottom {
   background: #5e1043;
   padding: 10px;
   border-radius: 0 0 20px 20px;
@@ -168,12 +185,16 @@ div.row + .clearfix {
   box-shadow: 2px 2px 2px #15020e;
 }
 
-.col-md-12.character a + h2,
-.col-md-6.character a + h2 {
+.col-md-12.character .bottom,
+.col-md-6.character .bottom {
   width: 500px;
 }
 
-.character h2 small a {
+.character .bottom h3 {
+  margin: 0;
+}
+
+.character h3 small a {
   color: #9a6e8b;
 }
 
