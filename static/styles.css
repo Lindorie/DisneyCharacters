@@ -176,3 +176,12 @@ div.row + .clearfix {
 .character h2 small a {
   color: #9a6e8b;
 }
+
+form.match_form .btn-default {
+  width: 100%;
+}
+
+.versus {
+  line-height: 500px;
+  font-size: 50px;
+}

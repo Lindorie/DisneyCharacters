@@ -19,8 +19,10 @@
           <img class="img-rounded img-responsive center-block" src="{{ url_for('static',
       filename=character.picture) }}" alt="{{ character.name }}" />
         </a>
-        <h2 class="text-center">{{ loop.index }}. <a href="{{ url_for('character', id=character.id) }}">{{ character.name }}</a><br />
-      <small><a href="{{ url_for('film', name=character.films) }}">{{
+        <h2 class="text-center">{{ loop.index }}. <a href="{{
+        url_for('character', id=character.id) }}">{{ character.name }}</a><br />
+      <small>{{
+        character.score }} points - <a href="{{ url_for('film', name=character.films) }}">{{
       character.films }}</a></small></h2>
 
       </div>

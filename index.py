@@ -3,11 +3,16 @@ import ConfigParser
 import sqlite3
 import logging
 import os
+import random
 
 from logging.handlers import RotatingFileHandler
 from flask import Flask, request, session, g, redirect, url_for, \
   abort, render_template, flash
 from contextlib import closing
+
+from elo2 import Elo
+
+elo = Elo()
 
 app = Flask(__name__)
 
@@ -60,6 +65,28 @@ def query_db(query, args=(), one=False):
           for idx, value in enumerate(row)) for row in cur.fetchall()]
   return (rv[0] if rv else None) if one else rv
 
+def get_character(id):
+  query = 'SELECT * FROM character WHERE id = ?'
+  character = query_db(query, [id], one=True)
+  if character is not None:
+    character['picture'] = 'characters/'+str(character['id'])+'.jpg'
+  return character
+
+def get_all_characters():
+  query = 'SELECT * FROM character ORDER BY name ASC'
+  allcharacters = query_db(query)
+  return allcharacters
+
+def get_random_player():
+  all = get_all_characters()
+  count = len(all)
+  player = None
+  while (player == None):
+    rand = random.randrange(1, count+1)
+    player = get_character(rand)
+  return player
+
+
 @app.before_request
 def before_request():
   g.db = connect_db()
@@ -74,9 +101,9 @@ def teardown_request(exception):
 def top10():
   this_route = url_for('.top10')
   app.logger.info("Logging a test message from "+this_route)
-  cur = g.db.execute('SELECT id,name,description,films FROM character ORDER BY \
-  name DESC LIMIT 0,10')
-  top = [dict(id=row[0],name=row[1],description=row[2],films=row[3],picture='characters/'+str(row[0])+'.jpg') for row in cur.fetchall()]
+  cur = g.db.execute('SELECT id,name,score,films FROM character ORDER BY \
+  score DESC LIMIT 0,10')
+  top = [dict(id=row[0],name=row[1],score=row[2],films=row[3],picture='characters/'+str(row[0])+'.jpg') for row in cur.fetchall()]
   return render_template('top10.html', top=top)
 
 @app.route('/config')
@@ -166,9 +193,43 @@ def logout():
   flash('You were logged out')
   return redirect(url_for('top10'))
 
-@app.route('/match')
+@app.route('/match', methods=['GET', 'POST'])
 def match():
-  return render_template('match.html')
+  player_context = [get_random_player(),get_random_player()]
+  while player_context[0]['id'] == player_context[1]['id']:
+    player_context[1] = get_random_player()
+
+  if session.new:
+    session['player_store'] = [x['id'] for x in player_context]
+
+  if request.method == 'POST':
+    choice = int(request.form['choice'])
+    winner_id = session['player_store'][choice-1]
+    looser_id = session['player_store'][choice-2]
+
+    winner = get_character(winner_id)
+    looser = get_character(looser_id)
+
+    winner, looser = elo.match(winner, looser)
+    
+    # set scores, wins, matches
+    query = 'UPDATE character SET score = ?, wins = ?, matches = ? \
+    WHERE id  = ?'
+    cur = g.db.cursor()
+    cur.execute(query, [winner['score'], winner['wins'],\
+    winner['matches'], winner['id']])
+    cur.execute(query, [looser['score'], looser['wins'],\
+    looser['matches'], looser['id']])
+    g.db.commit()
+    
+  else:
+    winner = None
+    looser = None
+  
+  session['player_store'] = [x['id'] for x in player_context]
+
+  return render_template('match.html', players=player_context, winner=winner,
+  looser=looser)
 
 @app.route('/browse')
 @app.route('/browse/<sort>/<order>')
