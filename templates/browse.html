@@ -18,7 +18,7 @@
       <td><img class="img-circle" src="{{
       url_for('static', filename= character.picture) }}" alt="{{ character.name
       }}" /></td>
-      <td>{{ character.name }}</td>
+      <td><a href="{{ url_for('character', id=character.id) }}">{{ character.name }}</a></td>
       <td>{{ character.films }}</td>
     </tr>
   {% endfor %}

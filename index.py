@@ -44,13 +44,21 @@ def logs(app):
 
 def connect_db():
   init(app)
-  return sqlite3.connect(app.config['database'])
+  conn = sqlite3.connect(app.config['database'])
+  conn.row_factory = sqlite3.Row
+  return conn
 
 def init_db():
   with closing(connect_db()) as db:
     with app.open_resource('schema.sql', mode='r') as f:
       db.cursor().executescript(f.read())
     db.commit()
+
+def query_db(query, args=(), one=False):
+  cur = g.db.execute(query, args)
+  rv = cur.fetchall()
+  cur.close()
+  return (rv[0] if rv else None) if one else rv
 
 @app.before_request
 def before_request():
@@ -145,6 +153,32 @@ def browse(sort=None):
   collection = [dict(id=row[0],name=row[1],films=row[2],picture='characters/'+str(row[0])+'.jpg')
   for row in cur.fetchall()]
   return render_template('browse.html', collection=collection)
+
+@app.route('/character')
+@app.route('/character/<int:id>')
+def character(id=None):
+  if id == None:
+    return redirect(url_for('browse'))
+  else:
+    query = 'SELECT id,name,films,description FROM character WHERE id=?'
+    character = query_db(query, [id], one=True)
+    if character is None:
+      flash('No such character')
+      return redirect(url_for('browse'))
+    else:
+      films = character['films']
+      id = character['id']
+      query2 = 'SELECT id,name FROM character WHERE films = ? AND id <> ?'
+      samefilms = query_db(query2, [films, id])
+      picture = 'characters/'+str(character['id'])+'.jpg'
+      if samefilms:
+        pictures = {}
+        for c in samefilms:
+          cid = c['id']
+          pictures[cid] = 'characters/'+str(cid)+'.jpg'
+      return render_template('character.html', character=character, picture=picture, samefilms=samefilms, pictures=pictures)
+
+
 
 if __name__ == '__main__':
   init(app)
