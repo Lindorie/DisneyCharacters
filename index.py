@@ -74,7 +74,8 @@ def teardown_request(exception):
 def top10():
   this_route = url_for('.top10')
   app.logger.info("Logging a test message from "+this_route)
-  cur = g.db.execute('SELECT id,name,description,films FROM character DESC')
+  cur = g.db.execute('SELECT id,name,description,films FROM character ORDER BY \
+  name DESC LIMIT 0,10')
   top = [dict(id=row[0],name=row[1],description=row[2],films=row[3],picture='characters/'+str(row[0])+'.jpg') for row in cur.fetchall()]
   return render_template('top10.html', top=top)
 
@@ -114,10 +115,31 @@ def delete(id):
   cur = g.db.cursor()
   cur.execute('DELETE FROM character WHERE id = ?', [id])
   g.db.commit()
-  os.remove('static/character/'+str(id)+'.jpg')
+  os.remove('static/characters/'+str(id)+'.jpg')
   flash('The character was successfully removed.')
   return redirect(url_for('top10'))
 
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit(id):
+  if not session.get('logged_in'):
+    abort(401)
+  if request.method == 'POST':
+    query = 'UPDATE character SET name = ?, description = ?, films = ? WHERE id = ?'
+    cur = g.db.cursor()
+    cur.execute(query, [request.form['name'], request.form['description'],\
+    request.form['films'], id])
+    g.db.commit()
+    flash('The character was edited')
+    return redirect(url_for('character', id=id))
+  else:
+    query = 'SELECT * FROM character WHERE id = ?'
+    character = query_db(query, [id], one=True)
+    if character:
+      picture = 'characters/'+str(character['id'])+'.jpg'
+      return render_template('edit.html', character=character, picture=picture)
+    else:
+      flash('No such character')
+      return redirect(url_from('browse'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -171,14 +193,31 @@ def character(id=None):
       query2 = 'SELECT id,name FROM character WHERE films = ? AND id <> ?'
       samefilms = query_db(query2, [films, id])
       picture = 'characters/'+str(character['id'])+'.jpg'
+      pictures = {}
       if samefilms:
-        pictures = {}
         for c in samefilms:
           cid = c['id']
           pictures[cid] = 'characters/'+str(cid)+'.jpg'
       return render_template('character.html', character=character, picture=picture, samefilms=samefilms, pictures=pictures)
 
-
+@app.route('/film')
+@app.route('/film/<name>')
+def film(name=None):
+  if name == None:
+    return redirect(url_for('browse'))
+  else:
+    query = 'SELECT id,name FROM character WHERE films = ?'
+    characters = query_db(query, [name])
+    if characters is None:
+      flash('No such film')
+      return redirect(url_for('browse'))
+    else:
+      pictures = {}
+      for c in characters:
+        cid = c['id']
+        pictures[cid] = 'characters/'+str(cid)+'.jpg'
+      return render_template('film.html', characters=characters,
+      pictures=pictures, filmname=name)
 
 if __name__ == '__main__':
   init(app)

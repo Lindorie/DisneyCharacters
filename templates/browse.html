@@ -19,7 +19,8 @@
       url_for('static', filename= character.picture) }}" alt="{{ character.name
       }}" /></td>
       <td><a href="{{ url_for('character', id=character.id) }}">{{ character.name }}</a></td>
-      <td>{{ character.films }}</td>
+      <td><a href="{{ url_for('film', name=character.films) }}">{{
+      character.films }}</a></td>
     </tr>
   {% endfor %}
   </table>

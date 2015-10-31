@@ -84,20 +84,36 @@ h1 {
   line-height: 2;
 }
 
-#page a.btn-default {
+#page .btn-default {
   color: #360827;
   background: #fbf8ca;
 }
 
-#page a.btn-default:hover,
-#page a.btn-default:active,
-#page a.btn-default:focus {
+#page .btn-default:hover,
+#page .btn-default:active,
+#page .btn-default:focus {
   color: #fbf8ca;
   background: #360827;
 }
 
-.well a {
+.alert-danger a {
   color: #360827;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  vertical-align: middle;
+}
+
+.alert-danger a:hover {
+  color: #fbf8ca;
+  background: #360827;
+}
+
+.alert-danger a span {
+  position: relative;
+  top: 3px;
 }
 
 table img {
@@ -117,12 +133,40 @@ table img {
 img.pull-left + p {
   overflow: hidden;
   padding-left: 20px;
+  font-size: 18px;
 }
 
-div.clearfix + .well {
+div.row + .clearfix {
   margin-top: 20px;
 }
 
 .thumbnail h3 a {
   color: #360827;
+}
+
+.breadcrumb {
+  background: none;
+}
+
+.character img {
+  box-shadow: 2px 2px 2px #15020e;
+}
+
+.character a + h2 {
+  background: #5e1043;
+  padding: 10px;
+  border-radius: 0 0 20px 20px;
+  margin: 0 auto 15px auto;
+  position: relative;
+  top: -5px;
+  box-shadow: 2px 2px 2px #15020e;
+}
+
+.col-md-12.character a + h2,
+.col-md-6.character a + h2 {
+  width: 500px;
+}
+
+.character h2 small a {
+  color: #9a6e8b;
 }
