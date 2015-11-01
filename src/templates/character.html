@@ -1,52 +1,51 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  
-  <ol class="breadcrumb">
-    <li><a href="{{ url_for('browse') }}">Browse</a></li>
-    <li><a href="{{ url_for('film', name=character.films) }}">{{
-    character.films }}</a></li>
-    <li class="active">{{ character.name }}</li>
-  </ol>
 
-  <div id="character" class=" clearfix">
-   
-    <h2>{{ character.name }}<br />
+<ol class="breadcrumb">
+  <li><a href="{{ url_for('browse') }}">Browse</a></li>
+  <li><a href="{{ url_for('film', name=character.films) }}">{{ character.films }}</a></li>
+  <li class="active">{{ character.name }}</li>
+</ol>
+
+<div id="character" class=" clearfix">
+
+  <h2>{{ character.name }}<br />
     <small>{{ character.films }}</small></h2>
-  
-  {% if session.logged_in %}
-    <div class="alert alert-danger clearfix">
-      <a href="{{ url_for('edit', id=character.id) }}"><span class="glyphicon
-      glyphicon-edit"></span> Edit</a> 
-      <a class="pull-right" href="{{ url_for('delete', id=character.id) }}"><span class="glyphicon
-      glyphicon-trash"></span> Delete</a>
-    </div>
-  {% endif %}
-  
-    <img class="img-rounded pull-left" src="{{ url_for('static',
-    filename=picture) }}" alt="{{ character.name }}" />
-    <div class="details">
-      <p class="score"><strong>Score:</strong> {{ character.score }} points<br
-      /><span><strong>{{ character.matches }}</strong> matches, <strong>{{
-      character.wins }}</strong> wins</span></p>
-      <p class="description">{{ character.description }}</p>
-    </div>
 
+  {% if session.logged_in %}
+  <div class="alert alert-danger clearfix">
+    <a href="{{ url_for('edit', id=character.id) }}"><span class="glyphicon
+      glyphicon-edit"></span> Edit</a>
+    <a class="pull-right" href="{{ url_for('delete', id=character.id) }}"><span class="glyphicon
+      glyphicon-trash"></span> Delete</a>
   </div>
-  
-  {% if samefilms %}
-    <h2>Relative characters</h2> 
+  {% endif %}
+
+  <img class="img-rounded pull-left" src="{{ url_for('static',
+    filename=picture) }}" alt="{{ character.name }}" />
+  <div class="details">
+    <p class="score"><strong>Score:</strong> {{ character.score }} points<br
+            /><span><strong>{{ character.matches }}</strong> matches, <strong>{{
+      character.wins }}</strong> wins</span></p>
+    <p class="description">{{ character.description }}</p>
+  </div>
+
+</div>
+
+{% if samefilms %}
+    <h2>Relative characters</h2>
+
     {% for c in samefilms %}
         <div class="col-md-3">
           <div class="thumbnail">
-            <a class="" href="{{ url_for('character', id=c.id) }}"><img src="{{ url_for('static',filename=pictures[c.id]) }}" alt="{{
-            c.name }}" /></a>
-            <h3 class="text-center"><a href="{{ url_for('character', id=c.id)
-            }}">{{ c.name }}</a></h3>
+            <a class="" href="{{ url_for('character', id=c.id) }}">
+              <img src="{{ url_for('static',filename=pictures[c.id]) }}" alt="{{ c.name }}" />
+            </a>
+            <h3 class="text-center"><a href="{{ url_for('character', id=c.id) }}">{{ c.name }}</a></h3>
           </div>
         </div>
     {% endfor %}
-
-  {% endif %}
+{% endif %}
 
 {% endblock %}

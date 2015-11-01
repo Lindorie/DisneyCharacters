@@ -31,21 +31,3 @@ class Elo(object):
         looser['matches'] +=1
 
         return winner, looser
-
-    def __match_algo_experimental(self, winner, looser):
-        #elo algorithm - simple modifications
-        r1 = max(min(looser.score - winner.score, 400), -400)
-        r2 = max(min(winner.score - looser.score, 400), -400)
-        e1 = 1.0 / (1+10**(r1 / 400))
-        e2 = 1.0 / (1+10**(r2 / 400))
-
-
-        winner.set_score(winner.score+K*e2)
-        looser.set_score(looser.score-K*e2)
-
-        #increase wincounter        
-        winner.wins +=1
-
-        #increase matchcounter
-        winner.matches +=1
-        looser.matches +=1

@@ -1,55 +1,55 @@
 <!doctype html>
 <head>
-  <title>Disney Characters</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static',
+    <title>Disney Characters</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',
   filename='css/bootstrap.min.css') }}" />
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static',
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',
   filename='styles.css') }}" />
 </head>
 <body>
-       <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-          
-          <div class="navbar-header">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+
+        <div class="navbar-header">
             <a class="navbar-brand" href="{{ url_for('home') }}">Disney
-            Characters</a>
-          </div>
-          <ul class="nav navbar-nav">
+                Characters</a>
+        </div>
+        <ul class="nav navbar-nav">
             <li><a href="{{ url_for('top10') }}">Top 10</a></li>
             <li><a href="{{ url_for('full') }}">Full rankings</a></li>
             <li><a href="{{ url_for('browse') }}">Browse</a></li>
             <li><a href="{{ url_for('match') }}">Start the match!</a></li>
-          </ul>
-          
-          <p class="navbar-text navbar-right">
-         {% if not session.logged_in %}
-           <a href="{{ url_for('login') }}">log in</a>
-         {% else %}
+        </ul>
+
+        <p class="navbar-text navbar-right">
+            {% if not session.logged_in %}
+            <a href="{{ url_for('login') }}">log in</a>
+            {% else %}
             <a href="{{ url_for('add_character')
-            }}">Add a character</a> - 
-           {{ config.username }} (<a href="{{ url_for('logout') }}">log
-           out</a>)
-          {% endif %}
-          </p>
-          </div>
-        </nav>
-  <div id="header" class="container-fluid">
-     <h1><a href="{{ url_for('home') }}">Disney characters</a></h1>
-     
-     <div class="text-center">
-     {% block header %}
+            }}">Add a character</a> -
+            {{ config.username }} (<a href="{{ url_for('logout') }}">log
+            out</a>)
+            {% endif %}
+        </p>
+    </div>
+</nav>
+<div id="header" class="container-fluid">
+    <h1><a href="{{ url_for('home') }}">Disney characters</a></h1>
+
+    <div class="text-center">
+        {% block header %}
         <h2 class="button"><a href="{{ url_for('match') }}">Start the match!</a></h2>
         <p class="text-center">or</p>
         <h2><a href="{{ url_for('browse') }}">Browse the characters</a></h2>
-     {% endblock %}
-     </div>
+        {% endblock %}
     </div>
-  <div id="page" class="container">
-  {% for message in get_flashed_messages() %}
+</div>
+<div id="page" class="container">
+    {% for message in get_flashed_messages() %}
     <div class="alert alert-info">{{ message }}</div>
-  {% endfor %}
-  {% block body %}{% endblock %}
-  </div>
+    {% endfor %}
+    {% block body %}{% endblock %}
+</div>
 </body>
 </html>

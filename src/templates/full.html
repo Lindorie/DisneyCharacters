@@ -1,38 +1,39 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  
-  <h2 class="text-center">Full rankings</h2>
-  {% if rankings %}
-  
-  {% for character in rankings %}
+
+<h2 class="text-center">Full rankings</h2>
+{% if rankings %}
+
+{% for character in rankings %}
 
 
-    <div class="col-md-3 character">
+<div class="col-md-3 character">
 
-        <div class="picture">
-          <a href="{{ url_for('character', id=character.id) }}">
-            <img class="img-rounded" src="{{ url_for('static',
-      filename=character.picture) }}" alt="{{ character.name }}" />
-          </a>
-        </div>
-        <div class="center-block bottom">
-          <h3 class="text-center">{{ loop.index }}. <a href="{{
-        url_for('character', id=character.id) }}">{{ character.name }}</a><br />
-      <small>{{ character.score }} points</small></h3>
-        </div>
+    <div class="picture">
+        <a href="{{ url_for('character', id=character.id) }}">
+            <img class="img-rounded" src="{{ url_for('static', filename=character.picture) }}" alt="{{ character.name }}" />
+        </a>
+    </div>
+    <div class="center-block bottom">
+        <h3 class="text-center">{{ loop.index }}. <a href="{{ url_for('character', id=character.id) }}">{{ character.name }}</a><br />
+            <small>{{ character.score }} points</small></h3>
+    </div>
 
-      </div>
-  {% endfor %}
-  
-  {% else %}
+</div>
+{% endfor %}
 
-        <p>No character so far.</p> 
+{% else %}
 
-      {% if session.logged_in %}
-        <p><a class="btn btn-default" href="{{ url_for('add_character') }}">
-      <strong>Add a character</a></strong></p>
-      {% endif %}
+<p>No character so far.</p>
 
-  {% endif %}
+{% if session.logged_in %}
+    <p>
+        <a class="btn btn-default" href="{{ url_for('add_character') }}">
+            <strong>Add a character</strong>
+        </a>
+    </p>
+{% endif %}
+
+{% endif %}
 {% endblock %}

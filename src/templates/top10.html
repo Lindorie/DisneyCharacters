@@ -1,47 +1,49 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  
-  <h2 class="text-center">Top 10</h2>
-  {% if top %}
-  
-  {% for character in top %}
 
-    {% if loop.index == 1 %}
-      <div class="col-md-12 character">
-    {% elif loop.index == 2 or loop.index == 3 %}
-      <div class="col-md-6 character">
-    {% else %}
-      <div class="col-md-3 character">
-    {% endif %}
+<h2 class="text-center">Top 10</h2>
 
-        <div class="picture">
-          <a href="{{ url_for('character', id=character.id) }}">
-            <img class="img-rounded" src="{{ url_for('static',
-      filename=character.picture) }}" alt="{{ character.name }}" />
-          </a>
-          <p class="points">{{ character.score }} points</p>
-        </div>
-        <div class="center-block bottom">
-          <h3 class="text-center">{{ loop.index }}. <a href="{{
-        url_for('character', id=character.id) }}">{{ character.name }}</a><br />
-      <small><a href="{{ url_for('film', name=character.films) }}">{{
-      character.films }}</a></small></h3>
-        </div>
+{% if top %}
 
-      </div>
-  {% endfor %}
-    <div class="col-md-3 full-rankings">
-      <h2 class="text-center"><a href="{{ url_for('full') }}">View full rankings</a></h2>
-    </div>
-  {% else %}
+    {% for character in top %}
 
-        <p>No character so far.</p> 
+        {% if loop.index == 1 %}
+            <div class="col-md-12 character">
+        {% elif loop.index == 2 or loop.index == 3 %}
+            <div class="col-md-6 character">
+        {% else %}
+            <div class="col-md-3 character">
+        {% endif %}
 
-      {% if session.logged_in %}
-        <p><a class="btn btn-default" href="{{ url_for('add_character') }}">
-      <strong>Add a character</a></strong></p>
-      {% endif %}
+                <div class="picture">
+                    <a href="{{ url_for('character', id=character.id) }}">
+                        <img class="img-rounded" src="{{ url_for('static', filename=character.picture) }}" alt="{{ character.name }}" />
+                    </a>
+                    <p class="points">{{ character.score }} points</p>
+                </div>
+                <div class="center-block bottom">
+                    <h3 class="text-center">{{ loop.index }}. <a href="{{ url_for('character', id=character.id) }}">{{ character.name }}</a><br />
+                        <small><a href="{{ url_for('film', name=character.films) }}">{{ character.films }}</a></small></h3>
+                </div>
 
-  {% endif %}
+            </div>
+    {% endfor %}
+
+                <div class="col-md-3 full-rankings">
+                     <h2 class="text-center"><a href="{{ url_for('full') }}">View full rankings</a></h2>
+                </div>
+{% else %}
+
+    <p>No character so far.</p>
+
+        {% if session.logged_in %}
+            <p>
+                <a class="btn btn-default" href="{{ url_for('add_character') }}">
+                    <strong>Add a character</strong>
+                </a>
+            </p>
+        {% endif %}
+
+{% endif %}
 {% endblock %}
