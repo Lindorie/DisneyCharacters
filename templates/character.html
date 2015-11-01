@@ -25,7 +25,12 @@
   
     <img class="img-rounded pull-left" src="{{ url_for('static',
     filename=picture) }}" alt="{{ character.name }}" />
-    <p>{{ character.description }}</p>
+    <div class="details">
+      <p class="score"><strong>Score:</strong> {{ character.score }} points<br
+      /><span><strong>{{ character.matches }}</strong> matches, <strong>{{
+      character.wins }}</strong> wins</span></p>
+      <p class="description">{{ character.description }}</p>
+    </div>
 
   </div>
   

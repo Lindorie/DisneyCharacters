@@ -14,6 +14,7 @@ body {
   background: #360827;
   color: #fbf8ca;
   font-family: Jaldi, Arial, sans-serif;
+  font-size: 18px;
   padding: 0 0 0 0;
   margin: 0;
 }
@@ -26,6 +27,18 @@ a:hover, a:active {
   text-decoration: underline;
 }
 
+.welcome a {
+  color: #fff;
+}
+
+.welcome {
+  padding-top: 30px;
+}
+
+.alert {
+padding: 0;
+}
+
 h1 {
   font-size: 56px;
   font-family: Handlee, Georgia, serif;
@@ -34,7 +47,8 @@ h1 {
 }
 
 #page {
-  padding-top: 20px;
+  /*padding-top: 20px;*/
+  padding-bottom: 50px;
 }
 
 #header {
@@ -136,10 +150,22 @@ table img {
   background-color: #5e1043;
 }
 
-img.pull-left + p {
+img.pull-left + div {
   overflow: hidden;
   padding-left: 20px;
   font-size: 18px;
+}
+
+#character .score {
+  color: #777;
+  font-size: 30px;
+  padding: 0 0 10px 0;
+  margin: 0 0 10px 0;
+  border-bottom: 1px solid #777;
+}
+
+#character .score span {
+  font-size: 20px;
 }
 
 div.row + .clearfix {

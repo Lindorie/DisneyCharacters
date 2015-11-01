@@ -105,6 +105,10 @@ def teardown_request(exception):
     db.close()
 
 @app.route('/')
+def home():
+  return render_template('home.html')
+
+@app.route('/top10')
 def top10():
   this_route = url_for('.top10')
   app.logger.info("Logging a test message from "+this_route)
@@ -258,7 +262,7 @@ def character(id=None):
   if id == None:
     return redirect(url_for('browse'))
   else:
-    query = 'SELECT id,name,films,description FROM character WHERE id=?'
+    query = 'SELECT * FROM character WHERE id=?'
     character = query_db(query, [id], one=True)
     if character is None:
       flash('No such character')
