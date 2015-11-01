@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  
+  <h2 class="text-center">Welcome!</h2>
+  
+  <div class="text-center welcome">
+    This web app has been developed specifically for the Advanced Web Technologies
+    module from Edinburgh Napier University. <br />
+    This is a collection of Disney characters and a voting system allowing them to have a score.<br />
+    The algorithm is based on the Elo rating system.<br /><br />
+    You should have a look on <a href="{{ url_for('top10') }}">the top 10</a>
+    or <a href="{{ url_for('browse') }}">the entire collection</a>.<br /><br />
+    But the best thing, honestly, is to play! Choose your preferred character
+    between the two proposed.<br /><br />
+    <a href="{{ url_for('match') }}" class="btn btn-default">Start playing
+    now!</a>
+  </div>
+
+  
+  {% for char in collection %}
+  <div class="col-sm-6 col-md-2 character">
+    <a href="{{ url_for('character', id=char.id) }}"><img class="img-rounded img-responsive center-block" src="{{ url_for('static', filename=char.picture) }}" alt="{{ char.name
+    }}" /></a>
+  </div>
+  {% endfor %}
+
+{% endblock %}
