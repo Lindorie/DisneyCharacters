@@ -4,9 +4,30 @@
   <h2>Browse the characters</h2>
 
 
+  <div class="search pull-right">
+    <form class="form-inline" method="post" action="{{ url_for('browse') }}">
+      <div class="form-group">
+        <label for="search">Search</label>
+        <input type="text" name="search" id="search" class="form-control"
+        placeholder="Type something..." />
+      </div>
+      <button type="submit" class="btn btn-default">Search</button>
+    </form>
+  </div>
+
+  {% if search %}
+    <div class="results pull-left">
+    <p>Results for <strong>{{ search }}</strong> (<a href="{{ url_for('browse')
+    }}">Remove</a>)</p>
+    {% if results == "nothing" %}
+      <p>No results.</p>
+    {% endif %}
+    </div>
+  {% endif %}
+
   <table class="table table-condensed">
     <tr>
-      <th>#</th>
+      <th class="text-center">#</th>
       <th>Picture</th>
       <th>
         {% if order == 'ASC' %}
@@ -28,7 +49,7 @@
         {% endif %}
       
       Films</th>
-      <th>        
+      <th class="text-center">        
         {% if order == 'ASC' %}
         <a href="{{ url_for('browse', sort='score', order='DESC') }}">
         <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
@@ -39,7 +60,7 @@
 
         Score
         </th>
-        <th>
+        <th class="text-center">
            {% if order == 'ASC' %}
         <a href="{{ url_for('browse', sort='matches', order='DESC') }}">
         <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
@@ -48,7 +69,7 @@
         <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
         {% endif %}
         Matches</th>
-        <th>
+        <th class="text-center">
                 {% if order == 'ASC' %}
         <a href="{{ url_for('browse', sort='wins', order='DESC') }}">
         <span class="glyphicon glyphicon-sort" aria-hidden="true"></span></a> 
@@ -60,16 +81,15 @@
     </tr>
   {% for character in collection %}
     <tr>
-      <td>{{ character.id }}</td>
-      <td><img class="img-circle" src="{{
-      url_for('static', filename= character.picture) }}" alt="{{ character.name
-      }}" /></td>
+      <td class="text-center">{{ character.id }}</td>
+      <td><a href="{{ url_for('character', id=character.id) }}">
+      <img class="img-circle" src="{{ url_for('static', filename=character.picture) }}" alt="{{ character.name }}" /></a></td>
       <td><a href="{{ url_for('character', id=character.id) }}">{{ character.name }}</a></td>
       <td><a href="{{ url_for('film', name=character.films) }}">{{
       character.films }}</a></td>
-      <td>{{ character.score }}</td>
-      <td>{{ character.matches }}</td>
-      <td>{{ character.wins }}</td>
+      <td class="text-center">{{ character.score }}</td>
+      <td class="text-center">{{ character.matches }}</td>
+      <td class="text-center">{{ character.wins }}</td>
     </tr>
   {% endfor %}
   </table>

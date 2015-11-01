@@ -16,5 +16,13 @@
     <a href="{{ url_for('match') }}" class="btn btn-default">Start playing
     now!</a>
   </div>
+
   
+  {% for char in collection %}
+  <div class="col-sm-6 col-md-2 character">
+    <a href="{{ url_for('character', id=char.id) }}"><img class="img-rounded img-responsive center-block" src="{{ url_for('static', filename=char.picture) }}" alt="{{ char.name
+    }}" /></a>
+  </div>
+  {% endfor %}
+
 {% endblock %}

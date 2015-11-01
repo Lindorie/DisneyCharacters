@@ -17,6 +17,7 @@
           </div>
           <ul class="nav navbar-nav">
             <li><a href="{{ url_for('top10') }}">Top 10</a></li>
+            <li><a href="{{ url_for('full') }}">Full rankings</a></li>
             <li><a href="{{ url_for('browse') }}">Browse</a></li>
             <li><a href="{{ url_for('match') }}">Start the match!</a></li>
           </ul>
@@ -35,11 +36,14 @@
         </nav>
   <div id="header" class="container-fluid">
      <h1><a href="{{ url_for('home') }}">Disney characters</a></h1>
+     
+     <div class="text-center">
      {% block header %}
         <h2 class="button"><a href="{{ url_for('match') }}">Start the match!</a></h2>
         <p class="text-center">or</p>
         <h2><a href="{{ url_for('browse') }}">Browse the characters</a></h2>
      {% endblock %}
+     </div>
     </div>
   <div id="page" class="container">
   {% for message in get_flashed_messages() %}

@@ -80,6 +80,15 @@ def get_all_characters(sort, order):
       c['picture'] = 'characters/'+str(c['id'])+'.jpg'
   return allcharacters
 
+def get_search_results(search):
+  query = 'SELECT * FROM character WHERE name LIKE "%'+search+'%" \
+  OR films LIKE "%'+search+'%" ORDER BY name ASC'
+  results = query_db(query)
+  if results:
+    for c in results:
+      c['picture'] = 'characters/'+str(c['id'])+'.jpg'
+  return results
+
 def get_the_last_id():
   query = 'SELECT id FROM character ORDER BY id DESC'
   lastid = query_db(query, [], one=True)
@@ -93,6 +102,14 @@ def get_random_player():
     player = get_character(rand)
   return player
 
+def get_x_characters(x=1):
+  i = 1
+  collection = []
+  while (i <= x):
+    char = get_random_player()
+    collection.append(char)
+    i = i + 1
+  return collection
 
 @app.before_request
 def before_request():
@@ -106,7 +123,8 @@ def teardown_request(exception):
 
 @app.route('/')
 def home():
-  return render_template('home.html')
+  collection = get_x_characters(6)
+  return render_template('home.html', collection=collection)
 
 @app.route('/top10')
 def top10():
@@ -116,6 +134,11 @@ def top10():
   score DESC LIMIT 0,10')
   top = [dict(id=row[0],name=row[1],score=row[2],films=row[3],picture='characters/'+str(row[0])+'.jpg') for row in cur.fetchall()]
   return render_template('top10.html', top=top)
+
+@app.route('/fullrankings')
+def full():
+  rankings = get_all_characters("score","DESC")
+  return render_template('full.html', rankings=rankings)
 
 @app.route('/config')
 def config():
@@ -172,6 +195,9 @@ def edit(id):
     cur.execute(query, [request.form['name'], request.form['description'],\
     request.form['films'], id])
     g.db.commit()
+    if request.files['picture']:
+      f = request.files['picture']
+      f.save('static/characters/'+str(id)+'.jpg')
     flash('The character was edited')
     return redirect(url_for('character', id=id))
   else:
@@ -242,19 +268,26 @@ def match():
   return render_template('match.html', players=player_context, winner=winner,
   looser=looser)
 
-@app.route('/browse')
-@app.route('/browse/<sort>/<order>')
+@app.route('/browse', methods=['GET', 'POST'])
+@app.route('/browse/<sort>/<order>', methods=['GET', 'POST'])
 def browse(sort=None,order=None):
   if sort == None:
     sort = "name"
   if order == None:
     order = "ASC"
-  collection = get_all_characters(sort, order)
-  #query = 'SELECT id,name,films FROM character ORDER BY '+sort+' '+order
-  #cur = g.db.execute(query)
-  #collection = [dict(id=row[0],name=row[1],films=row[2],picture='characters/'+str(row[0])+'.jpg')
-  #for row in cur.fetchall()]
-  return render_template('browse.html', collection=collection, order=order)
+  collection = {}
+  search = None
+  results = None
+  if request.method == 'POST':
+    if request.form['search']:
+      search = request.form['search']
+      collection = get_search_results(search)
+      if not collection:
+        results = "nothing"
+  if not collection:
+    collection = get_all_characters(sort, order)
+  return render_template('browse.html', collection=collection, search=search,
+  order=order, results=results)
 
 @app.route('/character')
 @app.route('/character/<int:id>')

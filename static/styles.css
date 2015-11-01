@@ -33,6 +33,7 @@ a:hover, a:active {
 
 .welcome {
   padding-top: 30px;
+  margin-bottom: 50px;
 }
 
 .alert {
@@ -40,7 +41,7 @@ padding: 0;
 }
 
 h1 {
-  font-size: 56px;
+  font-size: 50px;
   font-family: Handlee, Georgia, serif;
   text-align: center;
   margin: 0 0 30px 0;
@@ -51,12 +52,24 @@ h1 {
   padding-bottom: 50px;
 }
 
+.navbar-text {
+  margin-bottom: 0;
+}
+
 #header {
   background: #5e1043;
   color: #fbf8ca;
   width: 100%;
-  padding-top: 70px;
-  min-height: 300px;
+  padding: 70px 0 20px 0;
+}
+
+#header h2,
+#header p {
+  display: inline-block;
+}
+
+#header p {
+  padding: 0 20px;
 }
 
 #header h1 a {
@@ -66,6 +79,7 @@ h1 {
 
 #header h2 {
   color: #360827;
+  font-size: 26px;
   text-align: center;
   margin: 0 auto 10px auto;
 }
@@ -84,6 +98,8 @@ h1 {
   color: #fbf8ca;
   box-shadow: 0 0 3px #fbf8ca;
   text-decoration: none;
+  transition: background-color 0.5s;
+  transition: color 0.5s;
 }
 
 #header h2.button a {
@@ -113,7 +129,9 @@ form .btn-default {
 #page .btn-default:active,
 #page .btn-default:focus {
   color: #fbf8ca;
-  background: #360827;
+  background: #5e1043; 
+  transition: background-color 0.5s;
+  transition: color 0.5s;
 }
 
 .alert-danger a {
@@ -128,7 +146,9 @@ form .btn-default {
 
 .alert-danger a:hover {
   color: #fbf8ca;
-  background: #360827;
+  background: #360827;  
+  transition: background-color 0.5s;
+  transition: color 0.5s;
 }
 
 .alert-danger a span {
@@ -136,8 +156,33 @@ form .btn-default {
   top: 3px;
 }
 
+table {
+  background-color: #9a6e8b;
+}
+
+table td {
+ color: #360827;
+ position: relative;
+ height: 61px;
+}
+
+table td a:link, 
+table td a:visited, 
+table td a:focus {
+  color: #5e1043;
+}
+
 table img {
   max-width: 50px;
+}
+
+table img:hover {
+  max-width: 150px;
+  transition: max-width 0.5s;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 999;
 }
 
 .table>tbody>tr>td,
@@ -199,6 +244,16 @@ div.row + .clearfix {
 .character img {
   box-shadow: 2px 2px 2px #15020e;
   width: 100%;
+  border: 1px solid #15020e;
+}
+
+#character img {
+  box-shadow: 2px 2px 2px #15020e;
+}
+
+.character a:hover img {
+  border: 1px solid #777;
+  transition: border 0.5s;
 }
 
 .character .bottom {
@@ -231,4 +286,40 @@ form.match_form .btn-default {
 .versus {
   line-height: 500px;
   font-size: 50px;
+}
+
+.full-rankings h2 {
+  box-shadow: 2px 2px 2px #15020e;
+  background: #5e1043;
+  border-radius: 5px;
+  padding: 20px;
+  width: 255px;
+  margin: 0 auto;
+}
+
+.full-rankings a:hover {
+  text-decoration: none;
+  color: #15020e;
+  transition: color 0.5s;
+}
+
+.search {
+  margin: 20px 0;
+}
+
+.search input[type='text'] {
+  line-height: 2;
+}
+
+.search label {
+  visibility: hidden;
+}
+
+.results {
+  margin: 30px 0 10px 0;
+  font-size: 20px;
+}
+
+.results strong {
+  color: #9a6e8b;
 }

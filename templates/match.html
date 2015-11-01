@@ -1,5 +1,11 @@
 {% extends "layout.html" %}
 
+{% block header %}
+  <h2 class="button"><a href="{{ url_for('top10') }}">View the top 10</a></h2>
+  <p class="text-center">or</or>
+  <h2><a href="{{ url_for('browse') }}">Browse the characters</a></h2>
+{% endblock %}
+
 {% block body %}
 
   <h2 class="text-center">The match!<br />
@@ -36,5 +42,8 @@
     
     </div>
   </div>
+
+  <p class="text-center clearfix">You can play as long as you want, or <a href="{{
+  url_for('full') }}">view the results here</a></p>
 
 {% endblock %}

@@ -2,38 +2,29 @@
 
 {% block body %}
   
-  <h2 class="text-center">Top 10</h2>
-  {% if top %}
+  <h2 class="text-center">Full rankings</h2>
+  {% if rankings %}
   
-  {% for character in top %}
+  {% for character in rankings %}
 
-    {% if loop.index == 1 %}
-      <div class="col-md-12 character">
-    {% elif loop.index == 2 or loop.index == 3 %}
-      <div class="col-md-6 character">
-    {% else %}
-      <div class="col-md-3 character">
-    {% endif %}
+
+    <div class="col-md-3 character">
 
         <div class="picture">
           <a href="{{ url_for('character', id=character.id) }}">
             <img class="img-rounded" src="{{ url_for('static',
       filename=character.picture) }}" alt="{{ character.name }}" />
           </a>
-          <p class="points">{{ character.score }} points</p>
         </div>
         <div class="center-block bottom">
           <h3 class="text-center">{{ loop.index }}. <a href="{{
         url_for('character', id=character.id) }}">{{ character.name }}</a><br />
-      <small><a href="{{ url_for('film', name=character.films) }}">{{
-      character.films }}</a></small></h3>
+      <small>{{ character.score }} points</small></h3>
         </div>
 
       </div>
   {% endfor %}
-    <div class="col-md-3 full-rankings">
-      <h2 class="text-center"><a href="{{ url_for('full') }}">View full rankings</a></h2>
-    </div>
+  
   {% else %}
 
         <p>No character so far.</p> 
