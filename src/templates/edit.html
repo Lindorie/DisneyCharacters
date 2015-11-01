@@ -17,7 +17,7 @@
 <div class="row">
   <div class="col-md-4 character">
     <img class="img-rounded img-responsive center-block" src="{{ url_for('static',
-  filename=picture) }}" alt="{{ character.name }}" />
+  filename=character.picture) }}" alt="{{ character.name }}" />
   </div>
 
   <form enctype="multipart/form-data" class="col-md-8" action="{{ url_for('edit', id=character.id) }}" method="post">
