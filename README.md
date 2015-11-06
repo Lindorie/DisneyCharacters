@@ -1,6 +1,7 @@
-# set09103
-Advanced Web technologies
+# Disney Characters
+This Python Flask web app has been developed for the Advanced Web technologies module when studying at Edinburgh Napier University. This is a game based on the Elo rating system (used for chess competitions and in the film "The Social Network") where you have to choose your favourite Disney Character between two proposed.
 
+![Screenshot of the homepage](http://home.carine-pic.com/Edinburgh/disney_characters.jpg)
 
 # How to run the app
 
